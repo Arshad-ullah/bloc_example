@@ -51,66 +51,37 @@ class MyHomePage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          Expanded(
-            child: BlocBuilder<CounterBloc, CounterState>(
-              builder: (context, state) {
-                if (state is CounterInitial) {
-                  return Center(
-                    child: Text("No data"),
-                  );
-                } else if (state is NameState) {
-                  return ListView.builder(
-                    itemCount: state.nameList.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          leading: Text(state.nameList[index]),
-                          trailing: IconButton(
-                            onPressed: () {
-                              counter.add(NameDeleteEvent(
-                                  name: counter.nameList[index]));
-                            },
-                            icon: Icon(Icons.delete),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }
-
-                else if(state is CounterLoading)
-                {
-                  return Center(child: CircularProgressIndicator(),);
-                }
-                
-                 else {
-                  return Center(
-                    child: Text(""),
-                  );
-                }
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              onSubmitted: (value)
+          BlocBuilder<CounterBloc, CounterState>(
+            builder: (context, state) 
+            {
+              if(state is SearchState)
               {
-                 if (counter.nameController.text.trim().isNotEmpty) {
-            counter.add(NameEvent(name:value));
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Empty"),
-              ),
-            );
-          }
+                return Column(
+                  children: [
 
+                    TextField(
+                      onChanged: (value){
+                        counter.add(SearchEvent(name: value));
 
-              },
-              controller: counter.nameController,
-            ),
+                      },
+                    ),
+                    SizedBox(height: 20,),
+                    Text(state.name.toString())
+
+                  ],
+                );
+                
+              }
+              else 
+              {
+                return Text("");
+              }
+
+            }
+              
           ),
+        
+        
         ],
       ),
       floatingActionButton: FloatingActionButton(

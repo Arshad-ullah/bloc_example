@@ -9,15 +9,23 @@ part 'counter_event.dart';
 part 'counter_state.dart';
 
 class CounterBloc extends Bloc<CounterEvent, CounterState> {
-  TextEditingController nameController=TextEditingController();
-  List nameList=[];
-  CounterBloc() : super(CounterInitial()) {
+  TextEditingController nameController = TextEditingController();
+  List nameList = [];
+  CounterBloc() : super(SearchState(name: "")) {
     on<IncreamentEvent>(increment);
     on<DecreamentEvent>(decrement);
     on<NameEvent>(addName);
     on<NameDeleteEvent>(deleteName);
+    on<SearchEvent>(searchState);
   }
 
+
+void searchState(SearchEvent event,Emitter<CounterState> emitter)
+
+{
+  emitter(SearchState(name: event.name));
+
+}
   void increment(IncreamentEvent event, Emitter<CounterState> emitter) {
     emitter(IncreamentState(count: event.count));
   }
@@ -28,31 +36,20 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     }
   }
 
-  void addName(NameEvent event , Emitter<CounterState> emitter)
-  {
+  void addName(NameEvent event, Emitter<CounterState> emitter) {
     nameList.add(event.name.toString());
     emitter(NameState(nameList: nameList));
     nameController.clear();
-
   }
-   void deleteName(NameDeleteEvent event , Emitter<CounterState> emitter)
-  {
 
+  void deleteName(NameDeleteEvent event, Emitter<CounterState> emitter) async {
     emitter(CounterLoading());
 
-    Future.delayed(Duration(seconds: 3),()async
-    {
+    await Future.delayed(Duration(seconds: 1), () {
       nameList.remove(event.name.toString());
-    emitter(NameState(nameList: nameList));
+      emitter(NameState(nameList: nameList));
 
-    print("Some error");
-
+      print("Some error");
     });
-
-    print("Error");
-    
-
   }
-
-
 }

@@ -21,3 +21,9 @@ class NameState extends CounterState {
   List nameList = [];
   NameState({required this.nameList});
 }
+
+class SearchState extends CounterState
+{
+  String name;
+  SearchState({required this.name});
+}

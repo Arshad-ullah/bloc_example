@@ -24,3 +24,9 @@ class NameDeleteEvent extends CounterEvent {
 
   NameDeleteEvent({required this.name});
 }
+
+class SearchEvent extends CounterEvent
+{
+  String name;
+  SearchEvent({required this.name});
+}
