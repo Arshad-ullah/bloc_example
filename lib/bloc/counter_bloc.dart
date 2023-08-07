@@ -37,8 +37,19 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
   }
    void deleteName(NameDeleteEvent event , Emitter<CounterState> emitter)
   {
-    nameList.remove(event.name.toString());
+
+    emitter(CounterLoading());
+
+    Future.delayed(Duration(seconds: 3),()async
+    {
+      nameList.remove(event.name.toString());
     emitter(NameState(nameList: nameList));
+
+    print("Some error");
+
+    });
+
+    print("Error");
     
 
   }

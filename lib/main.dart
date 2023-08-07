@@ -77,6 +77,11 @@ class MyHomePage extends StatelessWidget {
                     },
                   );
                 }
+
+                else if(state is CounterLoading)
+                {
+                  return Center(child: CircularProgressIndicator(),);
+                }
                 
                  else {
                   return Center(
