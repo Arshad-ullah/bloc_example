@@ -1,50 +1,63 @@
 import 'package:bloc/bloc.dart';
+import 'package:counter_bloc/screen/login/login_screen.dart';
+import 'package:counter_bloc/utils/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:meta/meta.dart';
+
+import '../../../utils/firebase_exceptions.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
-enum AuthState { initial, authenticated, unauthenticated }
+enum AuthState {
+  initial,
+  loading,
+  authenticated,
+  unauthenticated,
+}
 
 class LoginBloc extends Bloc<LoginEvent, AuthState> {
   final FirebaseAuth auth = FirebaseAuth.instance;
-  LoginBloc() : super(AuthState.initial)
-  {
+  LoginBloc() : super(AuthState.initial) {
     on<LogingAuthEvent>(login);
     on<LogoutAuthEvent>(logOut);
-
   }
 
-  void logOut(LogoutAuthEvent event, Emitter<AuthState> emitter)async
-  {
-    try
-    {
+  void logOut(LogoutAuthEvent event, Emitter<AuthState> emitter) async {
+    try {
       await auth.signOut();
       emitter(AuthState.unauthenticated);
-
-    }
-    catch(e)
-    {
-           emitter(AuthState.unauthenticated);
-
-    
+    } catch (e) {
+      emitter(AuthState.unauthenticated);
     }
   }
 
-  void login(LogingAuthEvent event, Emitter<AuthState> emitter)async
-  {
+  void login(LogingAuthEvent event, Emitter<AuthState> emitter) async {
+    emitter(AuthState.loading);
     try {
-        await auth.createUserWithEmailAndPassword(
-          email: event.email,
-          password: event.password,
-        );
-        print("some error");
-        print(auth.currentUser!.uid);
-        emitter(AuthState.authenticated);
-      } catch (e) {
-        emitter(AuthState.unauthenticated);
-      }
+      await auth.createUserWithEmailAndPassword(
+        email: event.email,
+        password: event.password,
+      );
+     
+      print(auth.currentUser!.uid);
+      FlutterTost.showToast('Signup successfully');
+      Get.to(()=>SecondPage());
+
+      // emitter(AuthState.authenticated);
+    }on FirebaseException catch(e)
+    {
+      emitter(AuthState.unauthenticated);
+      print("eror code:"+e.code);
+      // FlutterTost.showToast(ExceptionHandler.signUpException(e.code));
+      FlutterTost.showToast(ExceptionHandler.signUpException(e.code));
+      
+    }  
+    catch (e) {
+      emitter(AuthState.unauthenticated);
+    }
   }
 
   // @override
@@ -64,11 +77,10 @@ class LoginBloc extends Bloc<LoginEvent, AuthState> {
   //     }
   //   }
 
-    // do letter
-    // else
-    // {
+  // do letter
+  // else
+  // {
 
-    // }
- // }
-
+  // }
+  // }
 }

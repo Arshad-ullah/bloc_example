@@ -1,11 +1,15 @@
 import 'dart:async';
 
-import 'package:counter_bloc/bloc/counter_bloc.dart';
+// import 'package:counter_bloc/bloc/counter_bloc.dart';
+// import 'package:counter_bloc/screen/login/bloc/login_bloc.dart';
+import 'package:counter_bloc/blocs/signup_bloc/singup_bloc.dart';
 import 'package:counter_bloc/screen/login/bloc/login_bloc.dart';
 import 'package:counter_bloc/screen/login/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+
 
 void main()async{
    WidgetsFlutterBinding.ensureInitialized();
@@ -19,8 +23,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => LoginBloc())],
-      child: MaterialApp(
+      providers: [
+        BlocProvider(create: (_) => LoginBloc()),
+        BlocProvider(create: (_) => SingupBloc()),
+
+      
+      ],
+      child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -33,121 +42,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  MyHomePage({super.key});
-
-  int count = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    final counter = BlocProvider.of<CounterBloc>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Name list"),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SecondScreen()));
-              },
-              icon: Icon(Icons.next_plan))
-        ],
-      ),
-      resizeToAvoidBottomInset: false,
-      body: Column(
-        children: [
-          BlocBuilder<CounterBloc, CounterState>(
-            builder: (context, state) 
-            {
-              if(state is SearchState)
-              {
-                return Column(
-                  children: [
-
-                    TextField(
-                      onChanged: (value){
-                        counter.add(SearchEvent(name: value));
-
-                      },
-                    ),
-                    SizedBox(height: 20,),
-                    Text(state.name.toString())
-
-                  ],
-                );
-                
-              }
-              else 
-              {
-                return Text("");
-              }
-
-            }
-              
-          ),
-        
-        
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (counter.nameController.text.trim().isNotEmpty) {
-            counter.add(NameEvent(name: counter.nameController.text.trim()));
-        
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Empty"),
-              ),
-            );
-          }
-        },
-        child: Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-class SecondScreen extends StatelessWidget {
-  const SecondScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final counter = context.read<CounterBloc>();
-
-    return Scaffold(
-      body: BlocBuilder<CounterBloc, CounterState>(
-        builder: (context, state) {
-          if (state is NameState) {
-                  return ListView.builder(
-                    itemCount: state.nameList.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          leading: Text(state.nameList[index]),
-                          trailing: IconButton(
-                            onPressed: () {
-                              counter.add(NameDeleteEvent(
-                                  name: counter.nameList[index]));
-                            },
-                            icon: Icon(Icons.delete),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }
-
-                else 
-                {
-                  return Container();
-                }
-        
-        },
-      ),
-    );
-  }
-}
 
 class TimerCount extends StatefulWidget {
   const TimerCount({super.key});
