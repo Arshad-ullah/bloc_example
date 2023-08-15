@@ -1,10 +1,15 @@
 import 'dart:async';
 
 import 'package:counter_bloc/bloc/counter_bloc.dart';
+import 'package:counter_bloc/screen/login/bloc/login_bloc.dart';
+import 'package:counter_bloc/screen/login/login_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+void main()async{
+   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -14,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => CounterBloc())],
+      providers: [BlocProvider(create: (_) => LoginBloc())],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
@@ -22,7 +27,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: MyHomePage(),
+        home: LoginScreen(),
       ),
     );
   }
@@ -88,6 +93,7 @@ class MyHomePage extends StatelessWidget {
         onPressed: () {
           if (counter.nameController.text.trim().isNotEmpty) {
             counter.add(NameEvent(name: counter.nameController.text.trim()));
+        
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
