@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:counter_bloc/blocs/signin_bloc/signin_bloc.dart';
 import 'package:counter_bloc/blocs/signin_bloc/signin_event.dart';
 import 'package:counter_bloc/blocs/signup_bloc/signup_events.dart';
 import 'package:counter_bloc/screen/home/home_screen.dart';
@@ -23,6 +24,8 @@ class SignupBloc extends Bloc<SignupEvent, AuthState> {
   final auth = FirebaseAuth.instance;
   SignupBloc() : super(AuthState.initial) {
     on<SignupAuthEvent>(createUser);
+
+    
   }
 
   //createUser

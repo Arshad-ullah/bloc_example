@@ -113,7 +113,7 @@ class SignUpScreen extends StatelessWidget {
             
                             widget: Center(
                                 child: manropeText(
-                                    text: "Login",
+                                    text: "Signup",
                                     color: kwhiteColor,
                                     fontSize: 20)),
                           ),

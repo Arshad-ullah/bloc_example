@@ -1,5 +1,6 @@
 import 'package:counter_bloc/blocs/signin_bloc/signin_bloc.dart';
 import 'package:counter_bloc/blocs/signin_bloc/signin_event.dart';
+import 'package:counter_bloc/blocs/signin_bloc/signin_state.dart';
 import 'package:counter_bloc/core/components/colors.dart';
 import 'package:counter_bloc/core/components/fontmanager.dart';
 import 'package:counter_bloc/screen/signup/signup_screen.dart';
@@ -19,12 +20,12 @@ class SigninScreen extends StatelessWidget {
     final width = MediaQuery.of(context).size.height;
     final signinBloc=BlocProvider.of<SinginBloc>(context);
     return Scaffold(
-      body: SafeArea(child: BlocBuilder<SinginBloc, AuthState>(
+      body: SafeArea(child: BlocBuilder<SinginBloc, SigninState>(
         builder: (context, state) {
-          if(state==AuthState.initial|| state==AuthState.loading)
+          if(state is InitialState|| state is LoadingState)
           {
               return ModalProgressHUD(
-                inAsyncCall:state==AuthState.loading,
+                inAsyncCall:signinBloc.state is LoadingState,
                 
                 child: Container(
                 child: SingleChildScrollView(
@@ -115,7 +116,7 @@ class SigninScreen extends StatelessWidget {
           }
           else 
           {
-            return SizedBox();
+            return Center(child: Text('dlk'),);
           }
         },
       )),

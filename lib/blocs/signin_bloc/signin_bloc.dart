@@ -1,6 +1,8 @@
 import 'package:counter_bloc/blocs/signin_bloc/signin_event.dart';
 import 'package:counter_bloc/blocs/signin_bloc/signin_state.dart';
+import 'package:counter_bloc/blocs/signup_bloc/signup_state.dart';
 import 'package:counter_bloc/screen/home/home_screen.dart';
+import 'package:counter_bloc/screen/singin/signin_screen.dart';
 import 'package:counter_bloc/utils/firebase_exceptions.dart';
 import 'package:counter_bloc/utils/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,18 +17,45 @@ enum AuthState {
   loading,
 }
 
-class SinginBloc extends Bloc<SigninEvent, AuthState> {
+class SinginBloc extends Bloc<SigninEvent, SigninState> {
   final auth = FirebaseAuth.instance;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  SinginBloc() : super(AuthState.initial) {
+  SinginBloc() : super(InitialState()) {
     print("constrcutor is called");
     on<SigninAuthEvent>(userLogin);
+    on<LogoutAuthEvent>(logOut);
+
   }
 
-  void userLogin(SigninAuthEvent event, Emitter<AuthState> emitter) async {
+
+//log out
+
+void logOut(LogoutAuthEvent event, Emitter<SigninState> emitter)async
+{
+  try
+  {
+    emitter(LoadingState());
+    await auth.signOut();
+    FlutterTost.showToast("User logout");
+    emitter(InitialState());
+    Get.offAll(()=>const SigninScreen());
+    
+
+  }
+  catch(e)
+  {
+     FlutterTost.showToast(e.toString());
+    emitter(InitialState());
+
+
+  }
+
+}
+
+  void userLogin(SigninAuthEvent event, Emitter<SigninState> emitter) async {
     try {
-      emitter(AuthState.loading);
+      emitter(LoadingState());
       await auth.signInWithEmailAndPassword(
         email: event.email,
         password: event.password,
@@ -34,7 +63,7 @@ class SinginBloc extends Bloc<SigninEvent, AuthState> {
 
       print(auth.currentUser!.uid);
       FlutterTost.showToast('login successfully');
-      emitter(AuthState.initial);
+      emitter(InitialState());
       Get.to(() => const HomeScreen());
       emailController.clear();
       passwordController.clear();
@@ -44,9 +73,9 @@ class SinginBloc extends Bloc<SigninEvent, AuthState> {
       print("eror code:" + e.code);
       // FlutterTost.showToast(ExceptionHandler.signUpException(e.code));
       FlutterTost.showToast(ExceptionHandler.loginException(e.code));
-      emitter(AuthState.initial);
+      emitter(InitialState());
     } catch (e) {
-      emitter(AuthState.initial);
+      emitter(InitialState());
       FlutterTost.showToast(e.toString());
       print("error");
       // emitter(AuthState.unauthenticated);
