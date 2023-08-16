@@ -25,8 +25,11 @@ class SinginBloc extends Bloc<SigninEvent, SigninState> {
     print("constrcutor is called");
     on<SigninAuthEvent>(userLogin);
     on<LogoutAuthEvent>(logOut);
+  
+    // emit(LoadingState());
 
   }
+
 
 
 //log out

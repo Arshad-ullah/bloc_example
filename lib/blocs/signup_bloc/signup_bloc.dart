@@ -24,6 +24,7 @@ class SignupBloc extends Bloc<SignupEvent, AuthState> {
   final auth = FirebaseAuth.instance;
   SignupBloc() : super(AuthState.initial) {
     on<SignupAuthEvent>(createUser);
+    
 
     
   }
