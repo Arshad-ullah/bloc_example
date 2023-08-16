@@ -14,6 +14,7 @@ part 'login_state.dart';
 enum AuthState {
   initial,
   loading,
+  loaded,
   authenticated,
   unauthenticated,
 }
@@ -44,9 +45,13 @@ class LoginBloc extends Bloc<LoginEvent, AuthState> {
      
       print(auth.currentUser!.uid);
       FlutterTost.showToast('Signup successfully');
-      Get.to(()=>SecondPage());
 
-      // emitter(AuthState.authenticated);
+      //arsaarshad khan nice jahan nice to meet you arshad kha
+      Get.to(()=>const SecondPage());
+
+
+       emitter(AuthState.loaded);
+       
     }on FirebaseException catch(e)
     {
       emitter(AuthState.unauthenticated);

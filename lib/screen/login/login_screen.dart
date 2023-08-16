@@ -24,6 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final model = BlocProvider.of<LoginBloc>(context);
+    print(model.state);
+
     return Scaffold(
       body: BlocBuilder<LoginBloc, AuthState>(
         builder: (context, state) {
@@ -42,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else {
             return ModalProgressHUD(
-              inAsyncCall:state==AuthState.loading,
+              inAsyncCall: state == AuthState.loading,
               child: Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Column(
@@ -78,14 +80,21 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-
 class SecondPage extends StatelessWidget {
   const SecondPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final model = BlocProvider.of<LoginBloc>(context);
+    print(model.state);
     return Scaffold(
-      body: Center(child: Text('Second screen')),
+      body: BlocBuilder<LoginBloc, AuthState>(
+        builder: (context, state) {
+          return Center(
+            child: Text('Second screen'),
+          );
+        },
+      ),
     );
   }
 }

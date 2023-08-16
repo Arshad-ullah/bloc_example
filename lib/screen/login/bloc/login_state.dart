@@ -7,5 +7,11 @@ final class LoginInitial extends LoginState {
   
 }
 
+class LoginAuthState extends LoginState
+{
+  String email;
+  LoginAuthState({required this.email});
+}
+
 
 

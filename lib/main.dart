@@ -2,13 +2,16 @@ import 'dart:async';
 
 // import 'package:counter_bloc/bloc/counter_bloc.dart';
 // import 'package:counter_bloc/screen/login/bloc/login_bloc.dart';
-import 'package:counter_bloc/blocs/signup_bloc/singup_bloc.dart';
+import 'package:counter_bloc/blocs/signin_bloc/signin_bloc.dart';
 import 'package:counter_bloc/screen/login/bloc/login_bloc.dart';
 import 'package:counter_bloc/screen/login/login_screen.dart';
+import 'package:counter_bloc/screen/singin/signin_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+
+import 'blocs/signup_bloc/signup_bloc.dart';
 
 
 void main()async{
@@ -25,7 +28,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => LoginBloc()),
-        BlocProvider(create: (_) => SingupBloc()),
+        BlocProvider(create: (_) => SinginBloc()),
+        BlocProvider(create: (_) => SignupBloc()),
 
       
       ],
@@ -36,7 +40,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: LoginScreen(),
+        home: const SigninScreen(),
       ),
     );
   }
