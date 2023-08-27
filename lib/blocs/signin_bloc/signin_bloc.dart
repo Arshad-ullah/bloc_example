@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:counter_bloc/blocs/signin_bloc/signin_event.dart';
 import 'package:counter_bloc/blocs/signin_bloc/signin_state.dart';
 import 'package:counter_bloc/blocs/signup_bloc/signup_state.dart';
@@ -23,38 +25,28 @@ class SinginBloc extends Bloc<SigninEvent, SigninState> {
   TextEditingController passwordController = TextEditingController();
   SinginBloc() : super(InitialState()) {
     print("constrcutor is called");
+    // on<LoadingEvent>(loading);
     on<SigninAuthEvent>(userLogin);
     on<LogoutAuthEvent>(logOut);
-  
+    
+
     // emit(LoadingState());
-
   }
-
-
 
 //log out
 
-void logOut(LogoutAuthEvent event, Emitter<SigninState> emitter)async
-{
-  try
-  {
-    emitter(LoadingState());
-    await auth.signOut();
-    FlutterTost.showToast("User logout");
-    emitter(InitialState());
-    Get.offAll(()=>const SigninScreen());
-    
-
+  void logOut(LogoutAuthEvent event, Emitter<SigninState> emitter) async {
+    try {
+      emitter(LoadingState());
+      await auth.signOut();
+      FlutterTost.showToast("User logout");
+      emitter(InitialState());
+      Get.offAll(() => const SigninScreen());
+    } catch (e) {
+      FlutterTost.showToast(e.toString());
+      emitter(InitialState());
+    }
   }
-  catch(e)
-  {
-     FlutterTost.showToast(e.toString());
-    emitter(InitialState());
-
-
-  }
-
-}
 
   void userLogin(SigninAuthEvent event, Emitter<SigninState> emitter) async {
     try {
@@ -66,7 +58,8 @@ void logOut(LogoutAuthEvent event, Emitter<SigninState> emitter)async
 
       print(auth.currentUser!.uid);
       FlutterTost.showToast('login successfully');
-      emitter(InitialState());
+      emitter(NavigateToHomeState());
+      // emitter(InitialState());
       Get.to(() => const HomeScreen());
       emailController.clear();
       passwordController.clear();
@@ -84,4 +77,17 @@ void logOut(LogoutAuthEvent event, Emitter<SigninState> emitter)async
       // emitter(AuthState.unauthenticated);
     }
   }
+
+  // void loading(
+  //     LoadingEvent event, Emitter<SigninState> emit) async {
+  //       print("object called");
+  //   emit(LoadingState());
+  //   await Future.delayed(Duration(seconds: 10),()
+  //   {
+  //     print("object called");
+
+  //   });
+  //   emit(InitialState());
+  // }
+
 }

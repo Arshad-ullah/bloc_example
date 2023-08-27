@@ -3,6 +3,8 @@ import 'dart:async';
 // import 'package:counter_bloc/bloc/counter_bloc.dart';
 // import 'package:counter_bloc/screen/login/bloc/login_bloc.dart';
 import 'package:counter_bloc/blocs/signin_bloc/signin_bloc.dart';
+import 'package:counter_bloc/blocs/testing_widget/bloc/testing_widget_bloc.dart';
+import 'package:counter_bloc/blocs/testing_widget/testing_screen.dart';
 import 'package:counter_bloc/screen/login/bloc/login_bloc.dart';
 import 'package:counter_bloc/screen/login/login_screen.dart';
 import 'package:counter_bloc/screen/singin/signin_screen.dart';
@@ -30,6 +32,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => LoginBloc()),
         BlocProvider(create: (_) => SinginBloc()),
         BlocProvider(create: (_) => SignupBloc()),
+        BlocProvider(create:(_)=> TestingWidgetBloc())
 
       
       ],
@@ -40,7 +43,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const SigninScreen(),
+        home: const TestingScreenWidget(),
       ),
     );
   }

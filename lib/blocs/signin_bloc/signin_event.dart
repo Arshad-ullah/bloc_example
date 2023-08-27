@@ -7,3 +7,4 @@ class SigninAuthEvent extends SigninEvent {
 }
 
 class LogoutAuthEvent extends SigninEvent{}
+class LoadingEvent extends SigninEvent{}

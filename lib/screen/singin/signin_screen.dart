@@ -18,105 +18,110 @@ class SigninScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.height;
-    final signinBloc=BlocProvider.of<SinginBloc>(context);
+    final signinBloc = BlocProvider.of<SinginBloc>(context);
     return Scaffold(
       body: SafeArea(child: BlocBuilder<SinginBloc, SigninState>(
         builder: (context, state) {
-          if(state is InitialState|| state is LoadingState)
-          {
-              return ModalProgressHUD(
-                inAsyncCall:signinBloc.state is LoadingState,
-                
-                child: Container(
-                child: SingleChildScrollView(
-                          child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: height * 0.01,
-                  ),
-                  const Center(
-                    child: Text(
-                      'Login',
-                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+          if (state is InitialState || state is LoadingState) {
+            return ModalProgressHUD(
+              inAsyncCall: signinBloc.state is LoadingState,
+              child: Container(
+                  child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: height * 0.01,
                     ),
-                  ),
-                  SizedBox(
-                    height: height * 0.05,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomTextField(
-                          controller:signinBloc.emailController,
-                          labelText: "Enter email",
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                        SizedBox(
-                          height: height * 0.03,
-                        ),
-                        CustomTextField(
-                          controller: signinBloc.passwordController,
-                          labelText: "Enter password",
-                          // keyboardType: TextInputType.visiblePassword,
-                          obscureText: true,
-                          maxLines: 1,
-                        ),
-                        SizedBox(
-                          height: height * 0.05,
-                        ),
-                        CustomContainer(
-                          borderColor: Colors.blue,
-                          onTap: () {
-                          if(signinBloc.emailController.text.trim().isNotEmpty && signinBloc.passwordController.text.trim().isNotEmpty)
-                          {
-                            signinBloc.add(SigninAuthEvent(email: signinBloc.emailController.text.trim(), password: signinBloc.passwordController.text.trim()));
-
-                          }
-                          },
-                          // containerColor:Colors.red,
-              
-                          widget: Center(
-                              child: manropeText(
-                                  text: "Login",
-                                  color: kwhiteColor,
-                                  fontSize: 20)),
-                        ),
-                        SizedBox(
-                          height: height * 0.01,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            manropeText(
-                                text: "Create a account! ",
-                                color: kblackColor,
-                                fontSize: 15),
-                            GestureDetector(
-                                onTap: () {
-                                  print('arshad');
-                                  Get.to(() => SignUpScreen());
-                                },
-                                child: manropeText(
-                                    text: "Signup",
-                                    color: klightBlueColor,
-                                    fontSize: 15)),
-                          ],
-                        )
-                      ],
+                    const Center(
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.w600),
+                      ),
                     ),
-                  )
-                ],
+                    SizedBox(
+                      height: height * 0.05,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomTextField(
+                            controller: signinBloc.emailController,
+                            labelText: "Enter email",
+                            keyboardType: TextInputType.emailAddress,
                           ),
-                        )),
-              );
-        
-          }
-          else 
-          {
-            return Center(child: Text('dlk'),);
+                          SizedBox(
+                            height: height * 0.03,
+                          ),
+                          CustomTextField(
+                            controller: signinBloc.passwordController,
+                            labelText: "Enter password",
+                            // keyboardType: TextInputType.visiblePassword,
+                            obscureText: true,
+                            maxLines: 1,
+                          ),
+                          SizedBox(
+                            height: height * 0.05,
+                          ),
+                          CustomContainer(
+                            borderColor: Colors.blue,
+                            onTap: () {
+                              if (signinBloc.emailController.text
+                                      .trim()
+                                      .isNotEmpty &&
+                                  signinBloc.passwordController.text
+                                      .trim()
+                                      .isNotEmpty) {
+                                signinBloc.add(SigninAuthEvent(
+                                    email:
+                                        signinBloc.emailController.text.trim(),
+                                    password: signinBloc.passwordController.text
+                                        .trim()));
+                              }
+                            },
+                            // containerColor:Colors.red,
+
+                            widget: Center(
+                                child: manropeText(
+                                    text: "Login",
+                                    color: kwhiteColor,
+                                    fontSize: 20)),
+                          ),
+                          SizedBox(
+                            height: height * 0.01,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              manropeText(
+                                  text: "Create a account! ",
+                                  color: kblackColor,
+                                  fontSize: 15),
+                              GestureDetector(
+                                  onTap: () {
+                                    print('arshad');
+                                    Get.to(() => SignUpScreen());
+                                  },
+                                  child: manropeText(
+                                      text: "Signup",
+                                      color: klightBlueColor,
+                                      fontSize: 15)),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              )),
+            );
+          } else {
+            return Center(
+              child: Text('dlk'),
+            );
           }
         },
       )),
