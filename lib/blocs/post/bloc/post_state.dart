@@ -14,3 +14,7 @@ class PostSuccessState extends PostState{
 }
 class PostLoadingState extends PostState{}
 class PostFailureState extends PostState{}
+class NavigateToCommentState extends PostState{
+  UserModel userModel;
+  NavigateToCommentState({required this.userModel});
+}

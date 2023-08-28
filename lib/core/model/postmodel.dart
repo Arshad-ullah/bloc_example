@@ -1,9 +1,9 @@
-class UserModel
-{
-  String name,username,email;
-  UserModel({required this.email, required this.name,required this.username});
-
-  
+class UserModel {
+  String title, body;
+  int userId, id;
+  UserModel(
+      {required this.title,
+      required this.body,
+      required this.userId,
+      required this.id});
 }
-
-

@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:counter_bloc/core/model/postmodel.dart';
 import 'package:counter_bloc/src/core/services/post_api.dart';
@@ -15,6 +17,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   PostBloc() : super(PostInitial()) {
     // init();
     on<PostLoadingEvent>(postLoading);
+    on<NavigateToCommentScreen>(navigateToComment);
   }
 
 
@@ -36,5 +39,12 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
       emit(PostFailureState());
     }
+  }
+
+  FutureOr<void> navigateToComment(NavigateToCommentScreen event, Emitter<PostState> emit) {
+    emit(NavigateToCommentState(userModel: event.userModel));
+    emit(PostSuccessState(userModelList:userModelList));
+ 
+ 
   }
 }

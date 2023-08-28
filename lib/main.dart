@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
 import 'blocs/signup_bloc/signup_bloc.dart';
+import 'comments/bloc/comments_bloc.dart';
 
 
 void main()async{
@@ -51,7 +52,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => SinginBloc()),
         BlocProvider(create: (_) => SignupBloc()),
         BlocProvider(create:(_)=> TestingWidgetBloc()),
-        BlocProvider(create: (_)=>PostBloc())
+        BlocProvider(create: (_)=>PostBloc()),
+        BlocProvider(create: (_)=>CommentsBloc(),)
 
       
       ],
