@@ -5,4 +5,6 @@ sealed class TestingWidgetState {}
 
 final class TestingWidgetInitial extends TestingWidgetState {}
 
+class TestingLoadingState extends TestingWidgetState{}
+
 class TestingNavigateToHomeState extends TestingWidgetState{}

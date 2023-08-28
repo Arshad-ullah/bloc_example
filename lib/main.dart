@@ -2,13 +2,13 @@ import 'dart:async';
 
 // import 'package:counter_bloc/bloc/counter_bloc.dart';
 // import 'package:counter_bloc/screen/login/bloc/login_bloc.dart';
+import 'package:counter_bloc/blocs/post/bloc/post_bloc.dart';
+import 'package:counter_bloc/blocs/post/post_screen.dart';
 import 'package:counter_bloc/blocs/signin_bloc/signin_bloc.dart';
 import 'package:counter_bloc/blocs/testing_widget/bloc/testing_widget_bloc.dart';
-import 'package:counter_bloc/blocs/testing_widget/testing_screen.dart';
 import 'package:counter_bloc/screen/login/bloc/login_bloc.dart';
-import 'package:counter_bloc/screen/login/login_screen.dart';
-import 'package:counter_bloc/screen/singin/signin_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -18,7 +18,25 @@ import 'blocs/signup_bloc/signup_bloc.dart';
 
 void main()async{
    WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+
+   if(kIsWeb)
+   {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: "AIzaSyDGvbuFXuCtLlNKmSxwPWtd_nU4ichch9I",
+    authDomain: "testdatabase-295f5.firebaseapp.com",
+    projectId: "testdatabase-295f5",
+    storageBucket: "testdatabase-295f5.appspot.com",
+    messagingSenderId: "860192473893",
+    appId: "1:860192473893:web:98d0ec8c0c629cad1750cc",
+    measurementId: "G-RCN5T33SNG"
+      )
+    );
+   }
+  else 
+  {
+    await Firebase.initializeApp();
+  }
   runApp(const MyApp());
 }
 
@@ -32,7 +50,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => LoginBloc()),
         BlocProvider(create: (_) => SinginBloc()),
         BlocProvider(create: (_) => SignupBloc()),
-        BlocProvider(create:(_)=> TestingWidgetBloc())
+        BlocProvider(create:(_)=> TestingWidgetBloc()),
+        BlocProvider(create: (_)=>PostBloc())
 
       
       ],
@@ -43,7 +62,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const TestingScreenWidget(),
+        home: const PostScreen(),
       ),
     );
   }
@@ -85,19 +104,19 @@ class _TimerCountState extends State<TimerCount> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Counter Timer Example'),
+        title: const Text('Counter Timer Example'),
       ),
       body: Center(
         child: Text(
           formatTime(seconds),
-          style: TextStyle(fontSize: 36),
+          style: const TextStyle(fontSize: 36),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           startTimer();
         },
-        child: Icon(Icons.play_arrow),
+        child: const Icon(Icons.play_arrow),
       ),
     );
   }

@@ -4,3 +4,4 @@ part of 'testing_widget_bloc.dart';
 sealed class TestingWidgetEvent {}
 
 class TestingWidgetNavigatToHomeScreen extends TestingWidgetEvent{}
+class TestingLoadingEvent extends TestingWidgetEvent{}
